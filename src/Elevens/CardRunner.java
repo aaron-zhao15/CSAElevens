@@ -11,8 +11,7 @@ public class CardRunner
 {
 	public static void main( String args[] )
 	{
-		/*  uncomment once Card is built
-		 *
+		
 		Card one = new Card("SPADES", 9);
 		out.println(one.getSuit());
 		out.println(one.getFace());
@@ -30,6 +29,6 @@ public class CardRunner
 
 		Card five = new Card("HEARTS", 12);
 		out.println(five);
-		*/
+		
 	}
 }
