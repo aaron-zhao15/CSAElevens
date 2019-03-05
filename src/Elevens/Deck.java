@@ -39,7 +39,7 @@ public class Deck{
    //make a dealCard() method that returns the top card
         public String dealCard(){
             String s = cards.get(top).toString();
-            top = (top+1)%52;
+            top = (top-1)%52;
             return s;
         }
         
