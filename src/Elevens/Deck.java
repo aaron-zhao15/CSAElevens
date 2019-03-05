@@ -31,7 +31,7 @@ public class Deck{
    			//add a new TwentyOneCard to the deck
             for(String s: SUITS){
                 for(int i = 1; i < FACES.length; i++){
-                    cards.add(new Card(s, i));
+                    cards.add(new BlackJackCard(s, i));
                 }
             }
         }
@@ -39,6 +39,7 @@ public class Deck{
    //make a dealCard() method that returns the top card
         public String dealCard(){
             String s = cards.get(top).toString();
+//            cards.remove(top);
             top = (top-1)%52;
             return s;
         }
