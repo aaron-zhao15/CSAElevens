@@ -73,10 +73,7 @@ public class ElevensBoard extends Board {
      */
     @Override
     public boolean anotherPlayIsPossible() {
-        if (containsPairSum11(cardIndexes()) || containsJQK(cardIndexes())) {
-            return true;
-        }
-        return false;
+        return containsPairSum11(cardIndexes()) || containsJQK(cardIndexes());
     }
 
     /**
@@ -111,13 +108,13 @@ public class ElevensBoard extends Board {
         boolean hasQueen = false;
         boolean hasKing = false;
         for (int i = 0; i < selectedCards.size(); i++) {
-            if (super.cardAt(i).rank().equals("jack")) {
+            if (cardAt(selectedCards.get(i)).rank().equals("jack")) {
                 hasJack = true;
             }
-            else if (super.cardAt(i).rank().equals("queen")) {
+            if (cardAt(selectedCards.get(i)).rank().equals("queen")) {
                 hasQueen = true;
             }
-            else if (super.cardAt(i).rank().equals("king")) {
+            if (cardAt(selectedCards.get(i)).rank().equals("king")) {
                 hasKing = true;
             }
         }
