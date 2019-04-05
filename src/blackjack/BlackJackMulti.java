@@ -6,63 +6,71 @@ package blackjack;
 //Class -
 //Lab  - 
 import static java.lang.System.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class BlackJack {
+public class BlackJackMulti {
 
+    private ArrayList<Player> players;
     private Dealer dealer;
-    private Player player;
 
-    public BlackJack() {
-        dealer = new Dealer();
-        player = new Player();
+    public BlackJackMulti() {
+        players = new ArrayList<>();
+        players.add(new Player());
+    }
+    
+    public BlackJackMulti(int n) {
+        players = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            players.add(new Player());
+        }
     }
 
     public void playGame() {
         Scanner keyboard = new Scanner(System.in);
         char choice = 0;
-        int playerTotal;
         int dealerTotal;
         
         String answer;
         
-        dealer.shuffle();
-        player.addCardToHand(dealer.deal());
-        player.addCardToHand(dealer.deal());
+        for(Player player : players){
+            player.addCardToHand(dealer.deal());
+            player.addCardToHand(dealer.deal());
+            
+            out.println("PLAYER: Total: " + player.getHandValue() + "\n" + player.toString());
+            
+            out.print("Do you want to hit? [Y/N]: ");
+            boolean playerHit = player.hit();
+
+            while (player.getHandValue() <= 21 && playerHit) {
+                player.addCardToHand(dealer.deal());
+                out.println(player.toString());
+                playerHit = player.hit();
+            }
+        }
         dealer.addCardToHand(dealer.deal());
         dealer.addCardToHand(dealer.deal());
 
-        playerTotal = player.getHandValue();
         dealerTotal = dealer.getHandValue();
 
-        out.println("PLAYER: Total: " + playerTotal + "\n" + player.toString());
         out.println("DEALER: Total: " + dealerTotal + "\n" + dealer.toString());
 
-        out.print("Do you want to hit? [Y/N]: ");
-        boolean playerHit = player.hit();
-
-        while (playerTotal <= 21 && playerHit) {
-            player.addCardToHand(dealer.deal());
-            playerTotal = player.getHandValue();
-            out.println("Total: " + playerTotal);
-            out.println(player.toString());
-            playerHit = player.hit();
-        }
 
         boolean dealerHit = dealer.hit();
 
         while (dealerHit) {
             dealer.addCardToHand(dealer.deal());
             dealerTotal = dealer.getHandValue();
-            out.println("Total: " + dealerTotal);
             out.println(dealer.toString());
             dealerHit = dealer.hit();
         }
 
-        if (playerTotal > 21 && dealerTotal > 21) {
+        
+        for(Player player : players){
+        if (player.getHandValue() > 21 && dealerTotal > 21) {
             out.println("Both players bust!");
         }
-        if (playerTotal <= 21){
+        if (player.getHandValue() <= 21){
             if(dealerTotal > 21){
                 out.println("\nPlayer wins - Dealer busted!");
             }
@@ -71,22 +79,25 @@ public class BlackJack {
             }
         }
         if(dealerTotal <= 21){
-            if(playerTotal > 21){
+            if(player.getHandValue() > 21){
                 out.println("\nDealer wins - Player busted!");
             }
             else {
                 out.println("\nDealer wins!");
             }
         }
+        
+        out.println("\nPlayer: "+ player.getHandValue() + " and Dealer:" + dealerTotal + "\n");
 
-        out.println("\nPlayer: "+ playerTotal + " and Dealer:" + dealerTotal + "\n");
-
+        }
         out.println("\nDo you want to play again? [Y/N] ");
 
         answer = keyboard.next();
 
         if(answer.toUpperCase().equals("Y")){
-            player.resetHand();
+            for(Player player : players){
+                player.resetHand();
+            }
             dealer.resetHand();
             playGame();
         }
@@ -103,7 +114,7 @@ public class BlackJack {
     }
 
     public static void main(String[] args) {
-        BlackJack game = new BlackJack();
+        BlackJackMulti game = new BlackJackMulti();
         game.playGame();
     }
 }
